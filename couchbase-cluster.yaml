@@ -1,40 +1,30 @@
-#
-# Persistent Volumes Zoning Guide
-# When deploying on a cloud that spans multiple availability zones, certain steps are required in order to use persistent volumes. These steps will vary depending on the version of Kubernetes being provided by your cloud.
-#
-# https://docs.couchbase.com/operator/1.2/persistent-volumes-zoning-guide.html
-#
 apiVersion: couchbase.com/v1
 kind: CouchbaseCluster
 metadata:
-  name: cb-server
+  name: cb-example
 spec:
   baseImage: couchbase/server
   version: enterprise-6.0.1
-  authSecret: cb-auth-secret
+  authSecret: cb-example-auth
   exposeAdminConsole: true
   adminConsoleServices:
     - data
   cluster:
-    dataServiceMemoryQuota: 6144
-    indexServiceMemoryQuota: 2048
-    searchServiceMemoryQuota: 512
-    eventingServiceMemoryQuota: 512
+    dataServiceMemoryQuota: 256
+    indexServiceMemoryQuota: 256
+    searchServiceMemoryQuota: 256
+    eventingServiceMemoryQuota: 256
     analyticsServiceMemoryQuota: 1024
     indexStorageSetting: memory_optimized
-    # view these in the cb-server with a port forward:
-    # kubectl port-forward cb-server-0000 8091:8091
-    # open in a browser:
-    # http://localhost:8091/ui/index.html#!/settings/autoFailover
-    autoFailoverTimeout: 10
+    autoFailoverTimeout: 120
     autoFailoverMaxCount: 3
     autoFailoverOnDataDiskIssues: true
-    autoFailoverOnDataDiskIssuesTimePeriod: 10
-    autoFailoverServerGroup: true
+    autoFailoverOnDataDiskIssuesTimePeriod: 120
+    autoFailoverServerGroup: false
   buckets:
     - name: default
       type: couchbase
-      memoryQuota: 2048
+      memoryQuota: 128
       replicas: 1
       ioPriority: high
       evictionPolicy: fullEviction
@@ -43,7 +33,6 @@ spec:
       enableIndexReplica: false
   servers:
     - size: 3
-      # changing the services list REQUIRES a delete/apply
       name: all_services
       services:
         - data

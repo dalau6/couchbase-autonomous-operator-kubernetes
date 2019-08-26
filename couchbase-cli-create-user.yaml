@@ -20,7 +20,7 @@ spec:
                      --roles admin --auth-domain local --set"]
         env:
           - name: CLUSTER_NAME
-            value: cb-server
+            value: cb-example
         volumeMounts:
           - name: cb-admin
             mountPath: "/auth/admin"
@@ -29,7 +29,7 @@ spec:
       volumes:
         - name: cb-admin
           secret:
-            secretName: cb-auth-secret
+            secretName: cb-example-auth
         - name: cb-users
           secret:
             secretName: cb-user-auth

@@ -4,6 +4,11 @@ This guide walks through the recommended procedure for installing the Couchbase 
 
 [prerequisites](https://docs.couchbase.com/operator/current/prerequisite-and-setup.html)
 
+**Start Minikube**
+```
+minikube start --cpus 4 --memory 8192
+```
+
 **Install the Admission Controller**
 Create the [admission controller](https://docs.couchbase.com/operator/current/install-admission-controller.html)
 ```
@@ -40,6 +45,16 @@ kubectl create -f operator-deployment.yaml
 ```
 
 Running this command downloads the Operator Docker image (specified in the operator-deployment.yaml file) and creates a [deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/), which manages a single instance of the Operator. The Operator uses a deployment so that it can restart if the pod it’s running in dies.
+
+**Create the Secret**
+```
+kubectl create -f secret.yaml
+```
+
+**Deploying the Couchbase Cluster**
+```
+kubectl create -f couchbase-cluster.yaml
+```
 
 **Check the Status of the Deployment**
 ```
