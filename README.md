@@ -31,6 +31,11 @@ kubectl create serviceaccount couchbase-operator --namespace default
 
 To assign the role to the service account:
 ```
+kubectl create rolebinding couchbase-operator --role couchbase-operator --serviceaccount default:couchbase-operator
+```
+
+**Create the Operator**
+```
 kubectl create -f operator-deployment.yaml
 ```
 
