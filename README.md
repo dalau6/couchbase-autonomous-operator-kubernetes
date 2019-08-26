@@ -60,3 +60,20 @@ kubectl create -f couchbase-cluster.yaml
 ```
 kubectl get deployments
 ```
+
+**Expose Couchbase Admin Console**
+```
+kubectl port-forward cb-example-0000 8091:8091
+```
+Login: Administrator
+Password: password
+
+
+**Sync Gateway**
+```
+cd sync-gateway-config/ && kubectl create secret generic sgw-config --from-file sgw-config.json
+```
+
+```
+kubectl create -f sgw-deployment.yaml
+```
