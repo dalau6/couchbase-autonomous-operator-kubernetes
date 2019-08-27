@@ -41,3 +41,16 @@ spec:
         - search
         - eventing
         - analytics
+        # persistent data
+      pod:
+        volumeMounts:
+          default: couchbase
+          data: couchbase
+  volumeClaimTemplates:
+    - metadata:
+        name: couchbase
+      spec:
+        storageClassName: "gp2"
+        resources:
+          requests:
+            storage: 1Gi
